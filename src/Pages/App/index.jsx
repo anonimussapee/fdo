@@ -47,6 +47,36 @@ const App = () => {
     setHandleMode(!handleMode)
   }
   
+  const onDragEnd = (result) => {
+    const {destination, source, draggableId} =  result
+
+    if(!destination ) {
+      return
+    }
+    if(destination.droppableId === source.droppableId && destination.index === source.index){
+      return 
+    }
+
+    const column =  data.columns[source.droppableId]
+    const newItemIds = Array.from(column.itemIds)
+    newItemIds.splice(source.index, 1)
+    newItemIds.splice(destination.index, 0 , draggableId)
+
+    const newColumn = {
+      ...column,
+      itemIds: newItemIds
+    }
+    const newState = {
+      ...data,
+      columns:{
+        ...data.columns,
+        [source.droppableId] :newColumn
+      }
+    }
+
+    setData(newState)
+  }
+
   return (
     <section className="w-full min-w-[320px] h-full  flex flex-col items-center ">
       {/* this section are to header image, title and logo */}
@@ -60,18 +90,16 @@ const App = () => {
       <Container >
         <CreateTodo/>
         <DragDropContext
-        
+         onDragEnd={onDragEnd}
         > 
           {data.columnOrder?.map((columnId)=> {
             const column =  data.columns[columnId]
             const items =  column.itemIds?.map(itemId => data.items[itemId] )
             return (
-              <ContainerItems key={columnId} items={items}/>
+              <ContainerItems key={column.id} items={items} column={column}/>
             )
           })}
 
-
-    
         </DragDropContext>
       </Container> 
       <p className='text-[--Very-Light-Gray] absolute bottom-8 font-extrabold'> Arrastra y suelta para priorizar tareas</p>

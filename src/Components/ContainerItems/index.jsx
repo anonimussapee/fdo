@@ -3,11 +3,11 @@ import { BottomTaskState } from '../BottomTaskState'
 import { Items } from '../Items'
 import { NavigatorTodos } from '../NavigatorTodos'
 
-const ContainerItems = ({ items}) => {
+const ContainerItems = ({ items, column}) => {
   return (
     <div className='box-primary flex flex-col sm:justify-between w-full h-[75%] rounded-xl overflow-hidden'>
       <Droppable 
-        droppableId='task-container'
+        droppableId={column.id}
 
       >
         {
@@ -15,9 +15,7 @@ const ContainerItems = ({ items}) => {
             <div id='scroll-container' className=' w-full h-[88%] box-primary flex flex-col overflow-y-scroll'
               ref={provided.innerRef}
             >
-              {items.map((item, index) => {return (
-                <Items key={index} item={item} index={index}/>
-              )})}
+              {items.map((item, index) => <Items key={item.id} item={item} index={index}/>)}
               {provided.placeholder}
             </div>
           )
