@@ -1,79 +1,11 @@
 import { useState } from 'react'
 import './App.css'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { DragDropContext} from 'react-beautiful-dnd'
+import { CreateTodo } from '../../Components/CreateTodo'
+import { Container, ContainerItems } from '../../Components/ContainerItems'
 
-const CheckCircle = ({checkAction, stateCheck}) => {
-  
-  return (
-    <span  className={`img w-[30px] h-[30px] rounded-full border-[2px] border-[var(--text-color-primary)]  ${stateCheck ? 'check-active' : 'bg-transparent'}  relative flex justify-center items-center`} onClick={checkAction || null}>
-      <span className={`img w-[20px] h-[20px] rounded-full  ${stateCheck ? 'check-active-icon absolute' : 'none'} `}></span>
-    </span>
-  )
-}
 
-const CreateTodo = () => {
-  const [todoName, setTodoName] = useState('')
-  
-  return (
-    <div className=' flex-grow-[1] max-h-[60px]  flex items-center gap-6 p-4 box-primary rounded-xl'>
-     <CheckCircle stateCheck={true}/>
-      <input className='box-primary dark:placeholder:text-[--text-color-primary] outline-none' type='text' value={todoName} onChange={(e)=>{setTodoName(e.target.value)}} placeholder='Crear una nueva Tarea'/>
-    </div>
-  )
-}
-const Items = ({item, index}) => {
-  return (
-    <Draggable
-      draggableId={item.id}
-      index={index}
-    >
-      {
-        (provided) => (
-          <div className=' flex-grow-[1] max-h-[60px]  flex items-center gap-6 p-4 box-primary rounded-xl'
-          {...provided.draggableProps}
-          ref={provided.innerRef}
-          >
-            <CheckCircle stateCheck={true}/>
-            <p className='box-primary'
-              {...provided.dragHandleProps}
-            >{item.content}</p>
-          </div>
 
-        )
-      }
-
-    </Draggable>
-  )
-}
-const ContainerItems = ({ items}) => {
-  return (
-    <Droppable 
-      droppableId='task-conatiner'
-
-    >
-      {
-        (provided) => (
-          <div className=' w-full h-[85%] box-primary rounded-xl flex flex-col'
-            ref={provided.innerRef}
-          >
-            {items.map((item, index) => {return (
-              <Items item={item} index={index}/>
-            )})}
-            {provided.placeholder}
-          </div>
-        )
-      }
-    </Droppable>
-
-  )
-}
-const Container= ({children}) => {
-  return (
-    <div className='main-container-column w-[90%] min-w-[320px] max-w-[600px] h-[75vh]  absolute flex flex-col justify-between font-bold '>
-      {children}
-    </div>
-  )
-} 
 
 const App = () => {
 
@@ -116,7 +48,7 @@ const App = () => {
   }
   
   return (
-    <section className="w-full min-w-[320px] relative flex flex-col items-center ">
+    <section className="w-full min-w-[320px] h-full  flex flex-col items-center ">
       {/* this section are to header image, title and logo */}
       <div className={`main-bg-image ${ handleMode ? 'bg-todo-dark' : 'bg-todo-ligth ' } relative `}>
         <div className='title-and-icon-container flex justify-between '>
@@ -142,7 +74,7 @@ const App = () => {
     
         </DragDropContext>
       </Container> 
-
+      <p className='text-[--Very-Light-Gray] absolute bottom-8 font-extrabold'> Arrastra y suelta para priorizar tareas</p>
 
 
     </section>
