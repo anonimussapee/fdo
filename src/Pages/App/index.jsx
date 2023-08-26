@@ -10,20 +10,27 @@ import { Container, ContainerItems } from '../../Components/ContainerItems'
 const App = () => {
 
   
-  const initialItems = {
+  let initialItems = {
     items : {
       'item-1' : {id:'item-1', content: 'hacer el proyecto de todo app de frontendmentor'},
       'item-2' : {id:'item-2', content: 'crear el componente de columna'},
       'item-3' : {id:'item-3', content: 'crear el componente de tareas'},
       'item-4' : {id:'item-4', content: 'terminar el curso de react-beautiful-dnd'},
+      'item-5' : {id:'item-5', content: 'terminar el curso de react-beautiful-dnd'},
 
     },
     columns : {
       'column-1': {
         title : 'All',
         id : 'column-1',
-        itemIds : [ 'item-1', 'item-2', 'item-3', 'item-4',]
+        itemIds : [ ]
       },
+      completed : {
+        title : 'Completed',
+        id : 'completedTasks',
+        itemIds : []
+      }
+
       // 'column-2': {
       //   title : 'Activate',
       //   id : 'column-1',
@@ -38,6 +45,19 @@ const App = () => {
     columnOrder : [ 'column-1'] 
     
   }
+  
+  initialItems = {
+    ...initialItems,
+    columns:{
+      ...initialItems.columns,
+      'column-1': {
+        ...initialItems.columns['column-1'],
+        itemIds : Object.keys(initialItems.items) || []
+      }
+
+    }
+  } 
+
   const [data, setData] =  useState(initialItems)
 
   const [handleMode, setHandleMode] = useState(false) 
@@ -76,7 +96,21 @@ const App = () => {
 
     setData(newState)
   }
+  const clearAction = () =>{
+    setData({
+      ...data,
+      items:{},
+      columns: {
+        ...data.columns,
+        'column-1': {
+          ...data.columns['column-1'],
+          itemIds : []
+        }
+      }
+    })
+  } 
 
+  const allItems =  (data.columns['column-1'].itemIds).length
   return (
     <section className="w-full min-w-[320px] h-full  flex flex-col items-center ">
       {/* this section are to header image, title and logo */}
@@ -94,9 +128,9 @@ const App = () => {
         > 
           {data.columnOrder?.map((columnId)=> {
             const column =  data.columns[columnId]
-            const items =  column.itemIds?.map(itemId => data.items[itemId] )
+            const items =  column.itemIds?.map(itemId => data?.items[itemId] )
             return (
-              <ContainerItems key={column.id} items={items} column={column}/>
+              <ContainerItems key={column.id} items={items}  column={column}  allItems={allItems} clearAction={clearAction}/>
             )
           })}
 

@@ -6,22 +6,13 @@ const Items = ({item, index}) => {
     <Draggable
       draggableId={item.id}
       index={index}
-      shouldRespectForcePress
+
     >
       {
-        (provided) => (
-          <div className='items-of-todos box-primary  h-[80px] ss:h-[70px]  flex items-center justify-between gap-6 p-4 '
+        (provided, snapshot) => (
+          <div className={`items-of-todos box-primary  h-[80px] ss:h-[70px]  flex items-center justify-between gap-6 p-4 ${snapshot.isDragging ? 'rounded-xl scale-105' : ' '}`}
           {...provided.draggableProps}
           ref={provided.innerRef}
-          onTouchStart={()=>{
-            console.log('vibrate')
-            setTimeout(() => {
-              
-              if('vubrate' in navigator){
-                navigator.vibrate(100)
-              }
-            }, 300);
-          }}
           >
             <CheckCircle stateCheck={true}/>
             <p className='box-primary flex-grow-[1]'
