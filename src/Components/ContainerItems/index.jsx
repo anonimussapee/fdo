@@ -3,7 +3,7 @@ import { BottomTaskState } from '../BottomTaskState'
 import { Items } from '../Items'
 import { NavigatorTodos } from '../NavigatorTodos'
 
-const ContainerItems = ({column, allItems, items,  clearAction}) => {
+const ContainerItems = ({data, setData, column, allItems, items,  clearAction}) => {
   return (
     <div className='box-primary flex flex-col sm:justify-between w-full h-[75%] rounded-xl overflow-hidden'>
       
@@ -16,7 +16,7 @@ const ContainerItems = ({column, allItems, items,  clearAction}) => {
             <div id='scroll-container' className=' w-full h-[88%] box-primary flex flex-col overflow-y-scroll'
               ref={provided.innerRef}
             >
-              {items?.map((item, index) => <Items key={item.id} item={item} index={index}/>)}
+              {items?.map((item, index) => <Items data={data} setData={setData} key={item.id} item={item} index={index}/>)}
               {provided.placeholder}
             </div>
           )

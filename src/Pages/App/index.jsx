@@ -12,18 +12,17 @@ const App = () => {
   
   let initialItems = {
     items : {
-      'item-1' : {id:'item-1', content: 'hacer el proyecto de todo app de frontendmentor'},
-      'item-2' : {id:'item-2', content: 'crear el componente de columna'},
-      'item-3' : {id:'item-3', content: 'crear el componente de tareas'},
-      'item-4' : {id:'item-4', content: 'terminar el curso de react-beautiful-dnd'},
-      'item-5' : {id:'item-5', content: 'terminar el curso de react-beautiful-dnd'},
+      'item-1' : { complete:false ,timeStamp:1693156487102,id:'item-1', content: 'hacer el proyecto de todo app de frontendmentor'},
+      'item-2' : { complete:false ,timeStamp:1693156487102,id:'item-2', content: 'crear el componente de columna'},
+      'item-3' : { complete:false ,timeStamp:1693156487102,id:'item-3', content: 'crear el componente de tareas'},
+      'item-4' : { complete:false ,timeStamp:1693156487102,id:'item-4', content: 'terminar el curso de react-beautiful-dnd'},
 
     },
     columns : {
       'column-1': {
         title : 'All',
         id : 'column-1',
-        itemIds : [ ]
+        itemIds : ['item-1','item-2','item-3','item-4', ]
       },
       completed : {
         title : 'Completed',
@@ -45,18 +44,6 @@ const App = () => {
     columnOrder : [ 'column-1'] 
     
   }
-  
-  initialItems = {
-    ...initialItems,
-    columns:{
-      ...initialItems.columns,
-      'column-1': {
-        ...initialItems.columns['column-1'],
-        itemIds : Object.keys(initialItems.items) || []
-      }
-
-    }
-  } 
 
   const [data, setData] =  useState(initialItems)
 
@@ -112,7 +99,7 @@ const App = () => {
 
   const allItems =  (data.columns['column-1'].itemIds).length
   return (
-    <section className="w-full min-w-[320px] h-full  flex flex-col items-center ">
+    <section className="w-full min-w-[320px] h-[100vh] flex flex-col items-center ">
       {/* this section are to header image, title and logo */}
       <div className={`main-bg-image ${ handleMode ? 'bg-todo-dark' : 'bg-todo-ligth ' } relative `}>
         <div className='title-and-icon-container flex justify-between '>
@@ -122,21 +109,23 @@ const App = () => {
       </div>
        {/* this section is to task ccolumn box */}
       <Container >
-        <CreateTodo/>
+        <CreateTodo setData={setData} data={data}/>
         <DragDropContext
          onDragEnd={onDragEnd}
         > 
           {data.columnOrder?.map((columnId)=> {
+
             const column =  data.columns[columnId]
-            const items =  column.itemIds?.map(itemId => data?.items[itemId] )
+            const itemsAll =  column.itemIds?.map(itemId => data?.items[itemId]  )
+            const items = itemsAll.sort((a,b)=>b.timeStamp - a.timeStamp  )
             return (
-              <ContainerItems key={column.id} items={items}  column={column}  allItems={allItems} clearAction={clearAction}/>
+              <ContainerItems key={column.id} items={items}  column={column}  allItems={allItems} clearAction={clearAction} setData={setData} data={data}/>
             )
           })}
 
         </DragDropContext>
       </Container> 
-      <p className='text-[--Very-Light-Gray] absolute bottom-8 font-extrabold'> Arrastra y suelta para priorizar tareas</p>
+      <p className='text-[--Very-Light-Gray] h-[5vh] absolute bottom-0 font-extrabold'> Arrastra y suelta para priorizar tareas</p>
 
 
     </section>

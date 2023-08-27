@@ -5,7 +5,7 @@
   --Check-Background: linear-gradient(120deg, #57ddff 0%, #c058f3 100%);
   --bg-primary: #e4e5f1 ;
   --bg-box-primary: #fafafa ;
- 
+  --bg-box-primary-drag: #c4bebe ;
   --Very-Light-Gray : #9394a5 ;
   --Very-ligth-Grayish-Blue: #484b6a ;
   /* darkmode */
@@ -21,6 +21,7 @@
   --Light-Grayish-Blue: #cacde8;
   --Dark-Grayish-Blue: #777a92;
   --bg-box-primary: #25273c;
+  --bg-box-primary-drag: #3f404e;
   --text-color-primary: #d2d3db ;
 }
 *,*::before,*::after{
@@ -43,6 +44,10 @@ display: none;
   background-color: var(--bg-box-primary);
   color: var(--text-color-primary);
   line-height: 1.9rem;
+}
+.box-primary.drag{
+  background-color: var(--bg-box-primary-drag);
+  
 }
 
 /* styles of item component */
