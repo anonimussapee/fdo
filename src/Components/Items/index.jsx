@@ -37,7 +37,7 @@ const Items = ({data, setData, item, index}) => {
           {...provided.draggableProps}
           ref={provided.innerRef}
           >
-            <CheckCircle stateCheck={true}/>
+            <CheckCircle stateCheck={item.complete} item={item} data={data} setData={setData}/>
             <p className=' flex-grow-[1]'
               {...provided.dragHandleProps}
             >{item.content}</p>

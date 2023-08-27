@@ -5,7 +5,7 @@ import { NavigatorTodos } from '../NavigatorTodos'
 
 const ContainerItems = ({data, setData, column, allItems, items,  clearAction}) => {
   return (
-    <div className='box-primary flex flex-col sm:justify-between w-full h-[75%] rounded-xl overflow-hidden'>
+    <div className='box-primary flex flex-col sm:justify-between w-full min-w-[200px] h-[75%] min-h-[200px] rounded-xl overflow-hidden'>
       
       <Droppable 
         droppableId={column.id}
@@ -27,12 +27,12 @@ const ContainerItems = ({data, setData, column, allItems, items,  clearAction}) 
 
   )
 }
-const Container= ({children}) => {
+const Container= ({allItems, children, data, setData}) => {
   return (
     <div className='main-container-column w-[90%] min-w-[320px] max-w-[600px] h-[75vh]  absolute flex flex-col justify-between font-bold '>
       {children}
 
-      <NavigatorTodos/>
+      <NavigatorTodos allItems={allItems} setData={setData} data={data}/>
     </div>
   )
 } 
