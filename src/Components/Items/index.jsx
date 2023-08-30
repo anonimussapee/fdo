@@ -1,13 +1,13 @@
 import { Draggable } from 'react-beautiful-dnd'
 import { CheckCircle } from '../CheckCircle'
 
-const Items = ({data, setData, item, index}) => {
+const Items = ({data, setData, item, index, onSave}) => {
   
   const onDelete = () => {
     const newData = data.columns['column-1'].itemIds
       newData.splice(index,1)
     console.log( newData)
-    setData({
+    const dataNew = {
       ...data,
       items:{
         ...data.items,
@@ -22,7 +22,8 @@ const Items = ({data, setData, item, index}) => {
 
         }
       }
-    )
+    setData(dataNew)
+    onSave(dataNew)
   }
 
   return (
@@ -37,7 +38,7 @@ const Items = ({data, setData, item, index}) => {
           {...provided.draggableProps}
           ref={provided.innerRef}
           >
-            <CheckCircle stateCheck={item.complete} item={item} data={data} setData={setData}/>
+            <CheckCircle onSave={onSave} stateCheck={item.complete} item={item} data={data} setData={setData}/>
             <p className=' flex-grow-[1]'
               {...provided.dragHandleProps}
             >{item.content}</p>

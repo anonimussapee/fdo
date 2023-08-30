@@ -2,8 +2,9 @@ import { Droppable } from 'react-beautiful-dnd'
 import { BottomTaskState } from '../BottomTaskState'
 import { Items } from '../Items'
 import { NavigatorTodos } from '../NavigatorTodos'
+import { LoadingItems } from '../Loader'
 
-const ContainerItems = ({data, setData, column, allItems, items,  clearAction}) => {
+const ContainerItems = ({load, data, setData, column, allItems, items,  clearAction, onSave}) => {
   return (
     <div className='box-primary flex flex-col sm:justify-between w-full min-w-[200px] h-[75%] min-h-[200px] rounded-xl overflow-hidden'>
       
@@ -16,8 +17,12 @@ const ContainerItems = ({data, setData, column, allItems, items,  clearAction}) 
             <div id='scroll-container' className=' w-full h-[88%] box-primary flex flex-col overflow-y-scroll'
               ref={provided.innerRef}
             >
-              {items?.map((item, index) => <Items data={data} setData={setData} key={item.id} item={item} index={index}/>)}
+              {load && <LoadingItems/>}
+              {
+                !load && items?.map((item, index) => <Items onSave={onSave} data={data} setData={setData} key={item.id} item={item} index={index}/>)
+              }
               {provided.placeholder}
+              
             </div>
           )
         }
@@ -27,12 +32,12 @@ const ContainerItems = ({data, setData, column, allItems, items,  clearAction}) 
 
   )
 }
-const Container= ({allItems, children, data, setData}) => {
+const Container= ({onSave, children, data, setData}) => {
   return (
     <div className='main-container-column w-[90%] min-w-[320px] max-w-[600px] h-[75vh]  absolute flex flex-col justify-between font-bold '>
       {children}
 
-      <NavigatorTodos allItems={allItems} setData={setData} data={data}/>
+      <NavigatorTodos  setData={setData} data={data}/>
     </div>
   )
 } 

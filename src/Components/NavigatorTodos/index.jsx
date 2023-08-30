@@ -1,34 +1,36 @@
-const NavigatorTodos = ({allItems, data, setData}) => {
+const NavigatorTodos = ({ data, setData}) => {
   const onAllView = () => {
-    setData({
+    const dataNew = {
       ...data,
       view:{
       all: true,
       active: false,
       completed: false,
     }
-    })
+    }
+    setData(dataNew)
   }
   const onActiveView = () => {
-    console.log(allItems)
-    setData({
+    const dataNew = {
       ...data,
       view:{
       all: false,
       active: true,
       completed: false,
     }
-  })
+  }
+    setData(dataNew)
   }
   const onCompleteView = () => {
-    setData({
+    const dataNew = {
       ...data,
       view:{
       all: false,
       active: false,
       completed: true,
     }
-  })
+  }
+    setData(dataNew)
   }
   return (
     <div className='w-full h-[8%] flex  items-center justify-evenly box-primary font-semibold text-[--Very-Light-Gray]'>

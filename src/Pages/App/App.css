@@ -12,7 +12,7 @@
   --text-color-primary: #161722;
   --Light-Grayish-Blue-hover: #e4e5f1;
   --Very-Dark-Grayish-Blue: #4d5066;
-  --Very-Dark-Grayish-Blue-2: #393a4c;
+  --Very-Dark-Gray: #a4adca75;
 
 }
 /*  #4d5066*/
@@ -23,6 +23,8 @@
   --bg-box-primary: #25273c;
   --bg-box-primary-drag: #3f404e;
   --text-color-primary: #d2d3db ;
+  --Very-Dark-Gray: #37445c75;
+
 }
 *,*::before,*::after{
   padding: 0;
@@ -55,7 +57,8 @@ display: none;
   border-color: transparent;
   border-bottom:var(--Very-Light-Gray) solid ;
   border-width: .5px;
-}
+}--Bright-Blue
+--Bright-Blue
 .cross-icon{
   background-image: url(../../assets/icon-cross.svg);
   width: 20px;
@@ -86,6 +89,24 @@ display: none;
   top: 110px;
 }
 
+/* animation Loader */
+.item-loading{
+  animation: loading .6s infinite linear;
+  background:linear-gradient(80deg, var(--Very-Dark-Gray) 30%, rgba(165, 165, 165, 0.583) 60%, var(--Very-Dark-Gray) 100%) ;
+  background-size: 200%;
+
+}
+@keyframes loading {
+
+  0%{
+    background-position: 0 0;
+  }
+  100%{
+    background-position: 200% 0;
+  }
+  
+}
+/* animation loader end */
 .title-and-icon-container{
   width: 300px;
   position: absolute;

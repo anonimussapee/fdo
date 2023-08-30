@@ -3,6 +3,7 @@ import './App.css'
 import { DragDropContext} from 'react-beautiful-dnd'
 import { CreateTodo } from '../../Components/CreateTodo'
 import { Container, ContainerItems } from '../../Components/ContainerItems'
+import { useLocalStorage } from '../../Components/useLocalStorage'
 
 
 
@@ -12,24 +13,16 @@ const App = () => {
   
   let initialItems = {
     items : {
-
+      'item-1': {
+        complete:false , id: 'item-1', content: 'crea tu primer ToDo'
+      }
     },
     columns : {
       'column-1': {
         title : 'All',
         id : 'column-1',
-        itemIds : []
-      },
-      'column-2': {
-        title : 'Activate',
-        id : 'column-2',
-        itemIds : [ ]
-      },
-      'column-3': {
-        title : 'Complete',
-        id : 'column-3',
-        itemIds : [ ]
-      },      
+        itemIds : ['item-1']
+      }   
     },
     columnOrder : [ 'column-1'],
     view: {
@@ -40,7 +33,10 @@ const App = () => {
     
   }
 
-  const [data, setData] =  useState(initialItems)
+  // const [data, setData] =  useState(initialItems)
+  const {data,load, setData, error, setSincronize, sincronize, onSave } = useLocalStorage(initialItems)
+
+  
 
   const [handleMode, setHandleMode] = useState(false) 
 
@@ -77,21 +73,45 @@ const App = () => {
     }
 
     setData(newState)
+    onSave(newState)
   }
   const clearAction = () =>{
-    setData({
-      ...data,
-      items:{},
-      columns: {
-        ...data.columns,
-        'column-1': {
-          ...data.columns['column-1'],
-          itemIds : []
+    const itemsCompletes = Object.values(data.items).filter(item=>item.complete)
+    if(itemsCompletes.length> 0){
+      
+      const itemsKeys =  Object.keys(data.items)
+      const itemsActives = Object.values(data.items).filter(item=>!item.complete)
+      let newState = {}
+      itemsKeys.forEach(item=>{
+        for (const itemActive of itemsActives) {
+          if(itemActive.id === item){
+            newState = {
+              ...newState,
+              [item] : itemActive
+            }
+          }
         }
+      })
+      
+      
+
+      const dataNew = {
+        ...data,
+        items:newState,
+        columns: {
+          ...data.columns,
+          'column-1': {
+            ...data.columns['column-1'],
+            itemIds : [...itemsActives?.map(item=>item.id)]
+          },
+        },
       }
-    })
+      setData(dataNew)
+      onSave(dataNew)
+    }
   } 
-  const allItems = data.view.all === true ?  Object.keys(data.items).length : data.view.active === true ?  ((Object.values(data.items)).map(item=>!item.complete)).length : (Object.values(data.items).map(item=>item.complete===true)).length
+
+  const allItems = data.view.all === true ?  Object.keys(data.items).length : data.view.active === true ?  ((Object.values(data.items)).filter(item=>!item.complete)).length : (Object.values(data.items).filter(item=>item.complete===true)).length
 
 
   return (
@@ -104,31 +124,39 @@ const App = () => {
         </div>
       </div>
        {/* this section is to task ccolumn box */}
-      <Container setData={setData} data={data} allItems={allItems}>
-        <CreateTodo setData={setData} data={data}/>
+      <Container setData={setData} data={data} onSave={onSave}>
+        <CreateTodo onSave={onSave} setData={setData} data={data}/>
         <DragDropContext
          onDragEnd={onDragEnd}
         > 
           {
-          data.view.all && data.columnOrder?.map((columnId)=> {
+          data.columnOrder?.map((columnId)=> {
 
             const column =  data.columns[columnId]
-            const items =  column.itemIds?.map(itemId => data?.items[itemId]  )
-            return (
-              <ContainerItems key={column.id} items={items}  column={column}  allItems={allItems} clearAction={clearAction} setData={setData} data={data}/>
-            )
+            if(data.view.all){
+
+              const items =  column.itemIds?.map(itemId => data?.items[itemId]  )
+              return (
+                <ContainerItems load={load} onSave={onSave}  key={column.id} items={items}  column={column}  allItems={allItems} clearAction={clearAction} setData={setData} data={data}/>
+              )
+
+            }else if(data.view.active){
+
+              const itemsAll =  column.itemIds?.map(itemId => data?.items[itemId])
+              const items = itemsAll.filter(item=>item.complete === false)
+              return (
+                <ContainerItems onSave={onSave} key={column.id+'active'} items={items}  column={column}  allItems={allItems} clearAction={clearAction} setData={setData} data={data}/>
+              )
+
+            }else if(data.view.completed){
+              const itemsAll =  column.itemIds?.map(itemId => data?.items[itemId] )
+              const items = itemsAll.filter(item=>item.complete )
+              return (
+                <ContainerItems onSave={onSave} key={column.id+'complete'} items={items}  column={column}  allItems={allItems} clearAction={clearAction} setData={setData} data={data}/>
+              )
+            } 
           })
           }
-          {
-            data.view.active && [1].map(()=>{
-              const column = data.columns['column-2']
-              const items = column.itemsIds?.map(itemId => data?.items[itemId].complete === false)
-              return (
-                <ContainerItems key={column.id} items={items} column={column} allItems={allItems} clearAction={clearAction} setData={setData} data={data}  />
-              )
-            })
-          }
-
         </DragDropContext>
       </Container> 
       <p className='text-[--Very-Light-Gray] h-[5vh] absolute bottom-0 font-extrabold'> Arrastra y suelta para priorizar tareas</p>

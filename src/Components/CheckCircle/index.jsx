@@ -1,16 +1,18 @@
-const CheckCircle = ({data, setData, item, checkAction, stateCheck}) => {
+const CheckCircle = ({data, setData, item, checkAction, stateCheck, onSave}) => {
   
   const onCheck = () => {
     if(checkAction){
       checkAction()
     }else{
-      setData({
+      const dataNew = {
         ...data,
         items:{
           ...data.items,
           [item.id]:{...data.items[item.id], complete : !data.items[item.id].complete}
         }
-      })      
+      }
+      setData(dataNew)      
+      onSave(dataNew)
     }
 
   }

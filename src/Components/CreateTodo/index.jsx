@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { CheckCircle } from '../CheckCircle'
 
-const CreateTodo = ({setData, data}) => {
+const CreateTodo = ({setData, data, onSave}) => {
   const [todoName, setTodoName] = useState('')
   const onCreate = (event) => {
     const idsActives = [] 
@@ -23,8 +23,7 @@ const CreateTodo = ({setData, data}) => {
 
       const itemsActives = Object.values(data.items).filter(item=>item.complete === false)
       itemsActives.forEach(item=>idsActives.push(item.id)) 
-
-      setData({
+      const dataNew = {
         ...data,
         items:{
           ...data.items,
@@ -41,9 +40,9 @@ const CreateTodo = ({setData, data}) => {
             itemIds : [`item-${idNew}`, ...idsActives  ]
           },
         }
-      })
-      console.log(data)
-
+      }
+      setData(dataNew)
+      onSave(dataNew)
       setTodoName('')
     }
 
@@ -66,8 +65,7 @@ const CreateTodo = ({setData, data}) => {
 
       const itemsActives = Object.values(data.items).filter(item=>item.complete === false)
       itemsActives.forEach(item=>idsActives.push(item.id)) 
-
-      setData({
+      const dataNew = {
         ...data,
         items:{
           ...data.items,
@@ -80,7 +78,9 @@ const CreateTodo = ({setData, data}) => {
             itemIds : [`item-${idNew}`, ...idsActives  ]
           }
         }
-      })
+      }
+      setData(dataNew)
+      onSave(dataNew)
       setTodoName('')
     } 
   }
