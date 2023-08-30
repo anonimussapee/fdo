@@ -5,16 +5,13 @@ import { useState } from 'react'
 const Items = ({data, setData, item, index, onSave}) => {
   
   const [deleting, setDeleting ] = useState(false)  
+  const [checking, setChecking ] = useState(false)  
   const onDelete = () => {
     const newData = data.columns['column-1'].itemIds
       newData.splice(index,1)
     console.log( newData)
     const dataNew = {
       ...data,
-      items:{
-        ...data.items,
-        [item.id] : {...data.items[item.id], complete: true}
-      },
       columns:{
         ...data.columns,
         'column-1':{
@@ -24,8 +21,13 @@ const Items = ({data, setData, item, index, onSave}) => {
 
         }
       }
-    setData(dataNew)
-    onSave(dataNew)
+      setDeleting(true)
+      setTimeout(() => {        
+        delete dataNew.items[item.id]
+        setData(dataNew)
+        onSave(dataNew)
+        setDeleting(false)
+      }, 200);
   }
 
   return (
@@ -36,11 +38,11 @@ const Items = ({data, setData, item, index, onSave}) => {
     >
       {
         (provided, snapshot) => (
-          <div className={`items-of-todos box-primary  h-[80px] ss:h-[70px]  flex items-center justify-between gap-6 p-4 ${snapshot.isDragging ? 'rounded-xl scale-105 drag' : ' '} ${deleting ? ' deleting ': ' '}`}
+          <div className={`items-of-todos box-primary  h-[80px] ss:h-[70px]  flex items-center justify-between gap-6 p-4 ${snapshot.isDragging ? 'rounded-xl scale-105 drag' : ' '} ${deleting ? ' deleting ': ' '} ${checking ? ' checking ': ' '}`}
           {...provided.draggableProps}
           ref={provided.innerRef}
           >
-            <CheckCircle setDeleting={setDeleting} onSave={onSave} stateCheck={item.complete} item={item} data={data} setData={setData}/>
+            <CheckCircle setChecking={setChecking} onSave={onSave} stateCheck={item.complete} item={item} data={data} setData={setData}/>
             <p className=' flex-grow-[1]'
               {...provided.dragHandleProps}
             >{item.content}</p>

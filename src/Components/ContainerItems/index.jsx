@@ -6,7 +6,7 @@ import { LoadingItems } from '../Loader'
 
 const ContainerItems = ({load, data, setData, column, allItems, items,  clearAction, onSave}) => {
   return (
-    <div className='box-primary flex flex-col sm:justify-between w-full min-w-[200px] h-[75%] min-h-[200px] rounded-xl overflow-hidden'>
+    <div className='box-primary flex flex-col sm:justify-between w-full min-w-[200px] h-[75%] sm:h-[85%] min-h-[200px] rounded-xl overflow-hidden'>
       
       <Droppable 
         droppableId={column.id}
@@ -27,7 +27,7 @@ const ContainerItems = ({load, data, setData, column, allItems, items,  clearAct
           )
         }
       </Droppable>
-      <BottomTaskState allItems={allItems} clearAction={clearAction} />
+      <BottomTaskState data={data} setData={setData} allItems={allItems} clearAction={clearAction} />
     </div>
 
   )

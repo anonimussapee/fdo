@@ -54,7 +54,11 @@ display: none;
 /*  styles for when removed */
 
 .deleting{
+  background-color: rgb(203, 2, 2);
+}
+.checking{
   background-color: var(--deleting );
+
 }
 
 /* styles of item component */
@@ -62,8 +66,8 @@ display: none;
   border-color: transparent;
   border-bottom:var(--Very-Light-Gray) solid ;
   border-width: .5px;
-}--Bright-Blue
---Bright-Blue
+}
+
 .cross-icon{
   background-image: url(../../assets/icon-cross.svg);
   width: 20px;
@@ -173,6 +177,12 @@ display: none;
     width: 100%;
     min-width: 320px;
     height: 220px;
+  }
+  .title-and-icon-container{
+    width: 600px;
+    position: absolute;
+    top: 50px;
+    left: calc(50% - 300px);
   }
 
 }

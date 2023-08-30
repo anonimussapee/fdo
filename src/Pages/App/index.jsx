@@ -115,11 +115,11 @@ const App = () => {
 
 
   return (
-    <section className="w-full min-w-[320px] h-[110vh] flex flex-col items-center ">
+    <section className="w-full min-w-[320px] h-[100vh] flex flex-col items-center ">
       {/* this section are to header image, title and logo */}
       <div className={`main-bg-image ${ handleMode ? 'bg-todo-dark' : 'bg-todo-ligth ' } relative `}>
         <div className='title-and-icon-container flex justify-between '>
-          <h1 className='text-[2.8rem] font-mono text-white font-bold '>TODO</h1>
+          <h1 className='text-[3.4rem] font-mono text-white font-extrabold '>TODO</h1>
           <span className={`img  ${handleMode ? ' icon-mode-dark ' : ' icon-mode-ligth '} cursor-pointer`} onClick={handleTheme}></span>
         </div>
       </div>
