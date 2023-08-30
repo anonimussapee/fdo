@@ -3,7 +3,7 @@ import './App.css'
 import { DragDropContext} from 'react-beautiful-dnd'
 import { CreateTodo } from '../../Components/CreateTodo'
 import { Container, ContainerItems } from '../../Components/ContainerItems'
-import { useLocalStorage } from '../../Components/useLocalStorage'
+import { useLocalStorage, useLocalStorageTheme } from '../../Components/useLocalStorage'
 
 
 
@@ -38,7 +38,7 @@ const App = () => {
 
   
 
-  const [handleMode, setHandleMode] = useState(false) 
+  const {handleMode, setHandleMode} = useLocalStorageTheme(false) 
 
   const handleTheme = () => {
     window.document.body.classList.toggle('dark')
@@ -115,7 +115,7 @@ const App = () => {
 
 
   return (
-    <section className="w-full min-w-[320px] h-[100vh] flex flex-col items-center ">
+    <section className="w-full min-w-[320px] h-[110vh] flex flex-col items-center ">
       {/* this section are to header image, title and logo */}
       <div className={`main-bg-image ${ handleMode ? 'bg-todo-dark' : 'bg-todo-ligth ' } relative `}>
         <div className='title-and-icon-container flex justify-between '>
@@ -159,7 +159,7 @@ const App = () => {
           }
         </DragDropContext>
       </Container> 
-      <p className='text-[--Very-Light-Gray] h-[5vh] absolute bottom-0 font-extrabold'> Arrastra y suelta para priorizar tareas</p>
+      <p className='text-[--Very-Light-Gray] h-[5vh] absolute bottom-[-20px] font-extrabold'> Arrastra y suelta para priorizar tareas</p>
 
 
     </section>

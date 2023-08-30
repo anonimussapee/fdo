@@ -41,4 +41,26 @@ const useLocalStorage = (initialValue) => {
     onSave,
   }
 }
-export {useLocalStorage}
+
+const useLocalStorageTheme = (initialValue) =>{
+  const [handleMode, setHandleMode] = useState(initialValue) 
+  
+  const themeJson = localStorage.getItem('themeTodo')
+  useEffect(()=>{
+    setTimeout(()=>{
+      const dataParsed = JSON.parse(themeJson) || initialValue
+      setHandleMode(dataParsed)
+      if(dataParsed){
+        window.document.body.classList.toggle('dark')
+      }
+      
+    },1)
+  },[])
+
+  const onSave = (newState) => {
+    localStorage.setItem('themeTodo',JSON.stringify(newState))
+    setHandleMode(newState)
+  }
+  return {handleMode, setHandleMode:onSave}
+}
+export {useLocalStorage, useLocalStorageTheme} 

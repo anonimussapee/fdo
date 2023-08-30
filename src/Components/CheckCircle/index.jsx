@@ -1,4 +1,4 @@
-const CheckCircle = ({data, setData, item, checkAction, stateCheck, onSave}) => {
+const CheckCircle = ({ setDeleting ,data, setData, item, checkAction, stateCheck, onSave}) => {
   
   const onCheck = () => {
     if(checkAction){
@@ -11,8 +11,12 @@ const CheckCircle = ({data, setData, item, checkAction, stateCheck, onSave}) => 
           [item.id]:{...data.items[item.id], complete : !data.items[item.id].complete}
         }
       }
-      setData(dataNew)      
-      onSave(dataNew)
+      setDeleting(true)
+      setTimeout(()=>{
+        setData(dataNew)      
+        onSave(dataNew)
+        setDeleting(false)
+      },200)
     }
 
   }

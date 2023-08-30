@@ -5,7 +5,7 @@
   --Check-Background: linear-gradient(120deg, #57ddff 0%, #c058f3 100%);
   --bg-primary: #e4e5f1 ;
   --bg-box-primary: #fafafa ;
-  --bg-box-primary-drag: #c4bebe ;
+  --bg-box-primary-drag: #cecece ;
   --Very-Light-Gray : #9394a5 ;
   --Very-ligth-Grayish-Blue: #484b6a ;
   /* darkmode */
@@ -13,7 +13,7 @@
   --Light-Grayish-Blue-hover: #e4e5f1;
   --Very-Dark-Grayish-Blue: #4d5066;
   --Very-Dark-Gray: #a4adca75;
-
+  --deleting : #003fac6e;
 }
 /*  #4d5066*/
 .dark{
@@ -50,6 +50,11 @@ display: none;
 .box-primary.drag{
   background-color: var(--bg-box-primary-drag);
   
+}
+/*  styles for when removed */
+
+.deleting{
+  background-color: var(--deleting );
 }
 
 /* styles of item component */
