@@ -13,15 +13,14 @@ const CreateTodo = ({setData, data, onSave}) => {
       let idNew = 0
       for (let i = 1; i < 200; i++) {
        const condition = idN.some(item=>item === i)
-       console.log(condition)
        if(!condition){
         idNew = i
         break
        }
       }
-      console.log(idNew)
+      console.log('este es el id',idNew)
 
-      const itemsActives = Object.values(data.items).filter(item=>item.complete === false)
+      const itemsActives = Object.values(data.items)
       itemsActives.forEach(item=>idsActives.push(item.id)) 
       const dataNew = {
         ...data,
@@ -33,14 +32,11 @@ const CreateTodo = ({setData, data, onSave}) => {
           ...data.columns,
           'column-1':{
             ...data.columns['column-1'],
-            itemIds : [`item-${idNew}`, ...idsActives  ]
-          },
-          'column-2':{
-            ...data.columns['column-2'],
-            itemIds : [`item-${idNew}`, ...idsActives  ]
+            itemIds : [ ...idsActives, `item-${idNew}` ]
           },
         }
       }
+      console.log(dataNew)
       setData(dataNew)
       onSave(dataNew)
       setTodoName('')
@@ -62,8 +58,8 @@ const CreateTodo = ({setData, data, onSave}) => {
         break
        }
       }
-
-      const itemsActives = Object.values(data.items).filter(item=>item.complete === false)
+      console.log('este es el id',idNew)
+      const itemsActives = Object.values(data.items)
       itemsActives.forEach(item=>idsActives.push(item.id)) 
       const dataNew = {
         ...data,
@@ -75,7 +71,7 @@ const CreateTodo = ({setData, data, onSave}) => {
           ...data.columns,
           'column-1':{
             ...data.columns['column-1'],
-            itemIds : [`item-${idNew}`, ...idsActives  ]
+            itemIds : [ ...idsActives,`item-${idNew}`,  ]
           }
         }
       }
